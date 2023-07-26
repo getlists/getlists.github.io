@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>The Pirate Bay - Top Torrents</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f6f6f6;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        #container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .torrent-item {
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>The Pirate Bay - Top Torrents</h1>
+    </header>
+
+    <div id="container">
+        <div class="torrent-item">Torrent 1</div>
+        <div class="torrent-item">Torrent 2</div>
+        <div class="torrent-item">Torrent 3</div>
+        <div class="torrent-item">Torrent 4</div>
+        <!-- Add more torrent items as needed -->
+    </div>
+
+    <div class="footer">
+        &copy; 2023 Your Website. All rights reserved.
+    </div>
+</body>
+</html>
