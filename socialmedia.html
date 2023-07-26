@@ -1,68 +1,125 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Social Media Links</title>
+    <title>Top Social Media Websites</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f6f6f6;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
         }
 
         #container {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
+            justify-content: space-between;
             padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        #main-content {
+            flex: 2;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-media-list {
+            list-style: none;
+            padding: 0;
         }
 
         .social-media-item {
-            width: 200px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .social-media-logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        #sidebar {
+            flex: 1;
             padding: 20px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-media-item a {
+            display: block;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
             text-align: center;
         }
 
-        .social-media-item img {
-            width: 100px;
-            height: 100px;
-        }
-
-        .social-media-item h3 {
-            margin-top: 10px;
-            margin-bottom: 5px;
-        }
-
-        .social-media-item p {
-            font-size: 14px;
-            line-height: 1.4;
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
+    <header>
+        <h1>Top Social Media Websites</h1>
+    </header>
+
     <div id="container">
-        <div class="social-media-item">
-            <a href="https://www.facebook.com/">
-                <img src="https://via.placeholder.com/100" alt="Facebook Logo">
-            </a>
-            <h3>Facebook</h3>
-            <p>A social networking platform to connect with friends and family, share updates, photos, and videos.</p>
+        <div id="main-content">
+            <ul class="social-media-list">
+                <li class="social-media-item">
+                    <img class="social-media-logo" src="https://via.placeholder.com/50" alt="Facebook Logo">
+                    <a href="https://www.facebook.com/">Facebook</a>
+                    <p>Facebook is a social networking platform that allows users to connect with friends and family, share updates, photos, and videos.</p>
+                </li>
+                <li class="social-media-item">
+                    <img class="social-media-logo" src="https://via.placeholder.com/50" alt="Instagram Logo">
+                    <a href="https://www.instagram.com/">Instagram</a>
+                    <p>Instagram is a photo and video-sharing social networking platform that enables users to express themselves creatively and discover the world through visual content.</p>
+                </li>
+                <li class="social-media-item">
+                    <img class="social-media-logo" src="https://via.placeholder.com/50" alt="Twitter Logo">
+                    <a href="https://twitter.com/">Twitter</a>
+                    <p>Twitter is a microblogging platform where users can post short messages, known as tweets, to share their thoughts, news, and engage with others.</p>
+                </li>
+                <!-- Add more social media platforms as needed -->
+            </ul>
         </div>
-        <div class="social-media-item">
-            <a href="https://www.instagram.com/">
-                <img src="https://via.placeholder.com/100" alt="Instagram Logo">
-            </a>
-            <h3>Instagram</h3>
-            <p>A photo and video-sharing social networking platform to express yourself and discover the world.</p>
+
+        <div id="sidebar">
+            <h3>Check Out Our Other Lists</h3>
+            <div class="social-media-item">
+                <a href="#">Top Movies</a>
+            </div>
+            <div class="social-media-item">
+                <a href="#">Best Books of the Year</a>
+            </div>
+            <!-- Add more links to other lists or blog posts -->
         </div>
-        <div class="social-media-item">
-            <a href="https://twitter.com/">
-                <img src="https://via.placeholder.com/100" alt="Twitter Logo">
-            </a>
-            <h3>Twitter</h3>
-            <p>A microblogging platform to share your thoughts, news, and engage with others through tweets.</p>
-        </div>
-        <!-- Add more social media platforms as needed -->
+    </div>
+
+    <div class="footer">
+        &copy; 2023 Get Lists. All rights reserved.
     </div>
 </body>
 </html>
