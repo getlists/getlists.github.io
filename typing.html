@@ -4,50 +4,56 @@
     <title>Typing Speed Test</title>
 </head>
 <body>
-    <div style="text-align: center;">
-        <a href="index.html">Home</a> 
-    </div>
     <h1>Typing Speed Test</h1>
-    <p>Enter your own paragraph (up to 500 characters) and start typing to test your typing speed:</p>
+    <p>Choose a time limit and start typing the random paragraph below:</p>
+
+    <select id="timeLimit">
+        <option value="300">5 minutes</option>
+        <option value="600">10 minutes</option>
+        <option value="1200">20 minutes</option>
+        <option value="1800">30 minutes</option>
+    </select>
+
     <textarea id="inputArea" rows="8" cols="60" placeholder="Type here..."></textarea>
     <button onclick="startTest()">Start Test</button>
 
     <p id="testResult"></p>
 
     <script>
+        const paragraphs = [
+            "This is a sample paragraph for testing your typing speed.",
+            "Typing speed tests are a fun way to improve your typing skills.",
+            "The quick brown fox jumps over the lazy dog.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            // Add more random paragraphs here.
+        ];
+
+        function getRandomParagraph() {
+            return paragraphs[Math.floor(Math.random() * paragraphs.length)];
+        }
+
         function startTest() {
-            const userParagraph = document.getElementById("inputArea").value.trim();
-            const wordLimit = 500;
-
-            if (userParagraph.length === 0) {
-                alert("Please enter a paragraph to start the test.");
-                return;
-            }
-
-            if (userParagraph.length > wordLimit) {
-                alert("Please enter a paragraph up to 500 characters.");
-                return;
-            }
-
+            const timeLimit = parseInt(document.getElementById("timeLimit").value, 10);
+            const originalParagraph = getRandomParagraph();
             const timer = setTimeout(() => {
-                calculateResult(userParagraph);
-            }, 30000); // Adjust the time limit here (e.g., 5000 for 5 seconds, 10000 for 10 seconds, etc.).
+                calculateResult(originalParagraph);
+            }, timeLimit * 1000);
 
+            document.getElementById("inputArea").value = "";
             document.getElementById("inputArea").readOnly = false;
             document.getElementById("inputArea").focus();
 
             document.getElementById("testResult").innerHTML = "";
 
             document.getElementById("inputArea").addEventListener("input", function () {
-                if (this.value === userParagraph) {
+                if (this.value === originalParagraph) {
                     clearTimeout(timer);
-                    calculateResult(userParagraph);
+                    calculateResult(originalParagraph);
                 }
             });
         }
 
-        function calculateResult(userParagraph) {
-            const originalParagraph = userParagraph;
+        function calculateResult(originalParagraph) {
             const userTypedText = document.getElementById("inputArea").value.trim();
             const wordsTyped = userTypedText.split(' ');
             const wordsOriginal = originalParagraph.split(' ');
@@ -61,7 +67,8 @@
 
             const accuracy = (correctWords / wordsTyped.length) * 100;
             const totalCharacters = userTypedText.length;
-            const typingSpeed = Math.floor((totalCharacters / 5) / (30 / 60)); // Assuming an average word has 5 characters and time limit is 30 seconds.
+            const timeTaken = (document.getElementById("timeLimit").value / 60).toFixed(2);
+            const typingSpeed = Math.floor((totalCharacters / 5) / (timeTaken / 60)); // Assume an average word has 5 characters.
 
             document.getElementById("inputArea").readOnly = true;
             document.getElementById("testResult").innerHTML = `Your typing speed: ${typingSpeed} words per minute (WPM)<br>Accuracy: ${accuracy.toFixed(2)}%`;
