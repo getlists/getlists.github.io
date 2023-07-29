@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Distance Calculator</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&libraries=geometry"></script>
+</head>
+<body>
+    <h1>Distance Calculator</h1>
+    <p>Enter the coordinates of two points to calculate the distance:</p>
+    <label for="lat1">Point 1 Latitude:</label>
+    <input type="text" id="lat1">
+    <label for="lng1">Point 1 Longitude:</label>
+    <input type="text" id="lng1">
+    <br>
+    <label for="lat2">Point 2 Latitude:</label>
+    <input type="text" id="lat2">
+    <label for="lng2">Point 2 Longitude:</label>
+    <input type="text" id="lng2">
+    <br>
+    <button onclick="calculateDistance()">Calculate Distance</button>
+    <p id="result"></p>
+
+    <script>
+        function calculateDistance() {
+            const lat1 = parseFloat(document.getElementById('lat1').value);
+            const lng1 = parseFloat(document.getElementById('lng1').value);
+            const lat2 = parseFloat(document.getElementById('lat2').value);
+            const lng2 = parseFloat(document.getElementById('lng2').value);
+
+            if (isNaN(lat1) || isNaN(lng1) || isNaN(lat2) || isNaN(lng2)) {
+                alert('Please enter valid latitude and longitude values.');
+                return;
+            }
+
+            const point1 = new google.maps.LatLng(lat1, lng1);
+            const point2 = new google.maps.LatLng(lat2, lng2);
+
+            const distance = google.maps.geometry.spherical.computeDistanceBetween(point1, point2);
+
+            // Display the distance in kilometers (you can convert to other units if needed).
+            document.getElementById('result').innerText = `Distance: ${distance.toFixed(2)} meters`;
+        }
+    </script>
+</body>
+</html>
