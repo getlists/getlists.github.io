@@ -29,32 +29,7 @@
     </tr>
   </table>
 
-  <script>
-    // JavaScript object containing country names and telecom codes
-    const countries = {
-      "Afghanistan": "+93",
-      "Albania": "+355",
-      "Algeria": "+213",
-      // Add more countries and telecom codes here...
-    };
-
-    // Function to dynamically populate the table with country names and telecom codes
-    function populateTable() {
-      const table = document.getElementById("telecom-codes-table");
-
-      for (const country in countries) {
-        const row = table.insertRow();
-        const countryCell = row.insertCell(0);
-        const codeCell = row.insertCell(1);
-
-        countryCell.textContent = country;
-        codeCell.textContent = countries[country];
-      }
-    }
-
-    // Call the function to populate the table on page load
-    populateTable();
-  </script>
+  <script src="https://gist.github.com/anubhavshrimal/75f6183458db8c453306f93521e93d37.js"></script>
   <div style="text-align: center;">
     <a href="index.html">Home</a> |
 </div>
