@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Compressor Tool</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Get Lists</h1>
+    </div>
+
+    <div class="menu-bar">
+        <a href="index.html">Home</a>
+    </div>
+
+    <div class="content">
+        <h2>Image Compressor</h2>
+        <input type="file" id="imageInput" accept="image/*" />
+        <div id="compressedImageContainer" style="display: none;">
+            <h3>Compressed Image</h3>
+            <img id="compressedImage" />
+            <p id="originalSize"></p>
+            <p id="compressedSize"></p>
+        </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2023 Your Company. All rights reserved.
+    </div>
+
+    <script>
+        document.getElementById('imageInput').addEventListener('change', function (event) {
+            const imageFile = event.target.files[0];
+            const imageReader = new FileReader();
+
+            imageReader.onload = function (e) {
+                const img = new Image();
+                img.src = e.target.result;
+
+                img.onload = function () {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    const maxImageSize = 500; // Maximum width or height of the compressed image
+                    let imgWidth = img.width;
+                    let imgHeight = img.height;
+
+                    if (imgWidth > imgHeight) {
+                        if (imgWidth > maxImageSize) {
+                            imgHeight *= maxImageSize / imgWidth;
+                            imgWidth = maxImageSize;
+                        }
+                    } else {
+                        if (imgHeight > maxImageSize) {
+                            imgWidth *= maxImageSize / imgHeight;
+                            imgHeight = maxImageSize;
+                        }
+                    }
+
+                    canvas.width = imgWidth;
+                    canvas.height = imgHeight;
+
+                    ctx.drawImage(img, 0, 0, imgWidth, imgHeight);
+
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7); // 0.7 is the image quality
+
+                    document.getElementById('compressedImage').src = compressedDataUrl;
+                    document.getElementById('originalSize').textContent = `Original Size: ${Math.floor(imageFile.size / 1024)} KB`;
+                    document.getElementById('compressedSize').textContent = `Compressed Size: ${Math.floor(compressedDataUrl.length / 1024)} KB`;
+                    document.getElementById('compressedImageContainer').style.display = 'block';
+                }
+            };
+
+            imageReader.readAsDataURL(imageFile);
+        });
+    </script>
+</body>
+</html>
