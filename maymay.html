@@ -7,9 +7,13 @@
 <body>
   <h1>Meme Generator</h1>
   <div id="memeContainer">
-    <img id="memeImage" src="" alt="Meme">
-    <div id="topText" contenteditable>Enter top text here</div><br><br><br>
-    <div id="bottomText" contenteditable>Enter bottom text here</div><br><br><br>
+    <img id="memeImage" src="https://via.placeholder.com/400x300" alt="Meme">
+    <div>
+      <input type="text" id="topText" placeholder="Enter top text">
+    </div>
+    <div>
+      <input type="text" id="bottomText" placeholder="Enter bottom text">
+    </div>
   </div>
   <input type="file" id="imageInput">
   <button onclick="generateMeme()">Generate Meme</button>
