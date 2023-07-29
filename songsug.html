@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Song Suggestion</title>
+</head>
+<body>
+
+  <h1>Song Suggestion</h1>
+  <form id="songSearchForm">
+    <label for="title">Song Title:</label>
+    <input type="text" id="title" required>
+    <br>
+    <label for="singer">Singer Name:</label>
+    <input type="text" id="singer" required>
+    <br>
+    <button type="button" onclick="searchSong()">Search Song</button>
+  </form>
+  <div id="searchResults"></div>
+
+  <script>
+    function searchSong() {
+      const title = document.getElementById("title").value;
+      const singer = document.getElementById("singer").value;
+
+      // Create the search query using Google as the search engine
+      const searchQuery = `https://www.google.com/search?q=${encodeURIComponent(
+        title + " " + singer + " song"
+      )}`;
+
+      // Open the search results in a new tab/window
+      window.open(searchQuery, "_blank");
+    }
+  </script>
+  <div style="text-align: center;">
+    <a href="index.html">Home</a> 
+</div>
+<div class="footer">
+    &copy; 2023 Get Lists. All rights reserved.
+</div>
+</body>
+</html>
