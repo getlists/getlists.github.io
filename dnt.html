@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Current Date and Time of User's Location</title>
+</head>
+<body>
+  <h1>Current Date and Time of User's Location</h1>
+  <button type="button" onclick="getDateTime()">Get Date and Time</button>
+  <div id="result"></div>
+
+  <script>
+    // Function to get the user's current location
+    function getCurrentLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showDateTime);
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    }
+
+    // Function to display the current date and time
+    function showDateTime(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      const currentDateTime = new Date();
+
+      // Display the date and time of the user's location
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = `
+        <p>Latitude: ${latitude}</p>
+        <p>Longitude: ${longitude}</p>
+        <p>Current Date and Time: ${currentDateTime}</p>
+      `;
+    }
+
+    function getDateTime() {
+      getCurrentLocation();
+    }
+  </script>
+</body>
+</html>

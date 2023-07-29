@@ -6,50 +6,7 @@
 <body>
     
     <h1 style="text-align: center; text-decoration: dotted; font-family: 'Courier New', Courier, monospace;">Get Lists</h1>
-    <div style="display: flex; flex-wrap: wrap; justify-content:right ; align-items: center;" id="location"></div>
-    <div style="display: flex; flex-wrap: wrap; justify-content: right; align-items: center; " id="date"></div>
-    <div style="display: flex; flex-wrap: wrap; justify-content: right; align-items: center; " id="time"></div>
-  
-    <script>
-        // Function to get the user's current location
-        function getCurrentLocation() {
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showLocation);
-          } else {
-            console.log("Geolocation is not supported by this browser.");
-          }
-        }
-      
-        // Function to display the user's current location
-        function showLocation(position) {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-      
-          // You can use external APIs like OpenCage Geocoder to get the city and country from latitude and longitude
-          // In this example, we'll use dummy data
-          const city = "New York";
-          const country = "USA";
-      
-          const locationDiv = document.getElementById("location");
-          locationDiv.innerHTML = `Your Location: ${city}, ${country}`;
-        }
-      
-        // Function to display the current date and time
-        function showDateTime() {
-          const now = new Date();
-      
-          const dateDiv = document.getElementById("date");
-          dateDiv.innerHTML = `Current Date: ${now.toDateString()}`;
-      
-          const timeDiv = document.getElementById("time");
-          timeDiv.innerHTML = `Current Time: ${now.toLocaleTimeString()}`;
-        }
-      
-        // Call the functions to show location and date/time
-        getCurrentLocation();
-        showDateTime();
-      </script>
-      
+
     <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; padding: 20px;">
         <button style="width: auto; height: auto; margin: auto; background-color: antiquewhite;" onclick="window.location.href='socialmedia.html';">Social Media</button>
         <button style="width: auto; height: auto; margin: auto; background-color: antiquewhite;" onclick="window.location.href='proxylist.html';">Proxy websites</button>
@@ -88,6 +45,11 @@
             <td style="padding: 10px; border: 1px solid #ddd;">Distance Between</td>
             <td style="padding: 10px; border: 1px solid #ddd;">Know distance between two Poitns.</td>
             <td style="padding: 10px; border: 1px solid #ddd;"><a href="distancebetween.html">Calculate Distance</a></td>
+        </tr>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ddd;">Location Date & Time</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">Know date and time for a location.</td>
+            <td style="padding: 10px; border: 1px solid #ddd;"><a href="dnt.html">Check Date & Time</a></td>
         </tr>
         <tr>
             <td style="padding: 10px; border: 1px solid #ddd;">Age Calculator</td>
