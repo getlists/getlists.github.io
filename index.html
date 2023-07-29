@@ -2,13 +2,54 @@
 <html>
 <head>
     <title>Get Lists</title>
-
-
 </head>
 <body>
     
     <h1 style="text-align: center; text-decoration: dotted; font-family: 'Courier New', Courier, monospace;">Get Lists</h1>
-
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; padding: 20px;" id="location"></div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; padding: 20px;" id="date"></div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; padding: 20px;" id="time"></div>
+  
+    <script>
+        // Function to get the user's current location
+        function getCurrentLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showLocation);
+          } else {
+            console.log("Geolocation is not supported by this browser.");
+          }
+        }
+      
+        // Function to display the user's current location
+        function showLocation(position) {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+      
+          // You can use external APIs like OpenCage Geocoder to get the city and country from latitude and longitude
+          // In this example, we'll use dummy data
+          const city = "New York";
+          const country = "USA";
+      
+          const locationDiv = document.getElementById("location");
+          locationDiv.innerHTML = `Your Location: ${city}, ${country}`;
+        }
+      
+        // Function to display the current date and time
+        function showDateTime() {
+          const now = new Date();
+      
+          const dateDiv = document.getElementById("date");
+          dateDiv.innerHTML = `Current Date: ${now.toDateString()}`;
+      
+          const timeDiv = document.getElementById("time");
+          timeDiv.innerHTML = `Current Time: ${now.toLocaleTimeString()}`;
+        }
+      
+        // Call the functions to show location and date/time
+        getCurrentLocation();
+        showDateTime();
+      </script>
+      
     <div style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; padding: 20px;">
         <button style="width: auto; height: auto; margin: auto; background-color: antiquewhite;" onclick="window.location.href='socialmedia.html';">Social Media</button>
         <button style="width: auto; height: auto; margin: auto; background-color: antiquewhite;" onclick="window.location.href='proxylist.html';">Proxy websites</button>
@@ -16,13 +57,15 @@
         <button style="width: auto; height: auto; margin: auto; background-color: antiquewhite;" onclick="window.location.href='progwebsites.html';">Programming Practice</button>
         <button style="width: auto; height: auto; margin: auto; background-color: antiquewhite;" onclick="window.location.href='topott.html';">Top OTT Websites</button>
         <button style="width: auto; height: auto; margin: auto; background-color: antiquewhite;" onclick="window.location.href='payments.html';">ITop Payments Applications</button>
-            <button style="width: auto; height: auto; margin: auto; background-color: antiquewhite;"onclick="window.location.href='payments.html';">ITop Payments Applications</button>
+        <button style="width: auto; height: auto; margin: auto; background-color: antiquewhite;"onclick="window.location.href='payments.html';">Top Payments Applications</button>
+        <button style="width: auto; height: auto; margin: auto; background-color: antiquewhite;"onclick="window.location.href='payments.html';">Top Payments Applications</button>
+        <button style="width: auto; height: auto; margin: auto; background-color: antiquewhite;"onclick="window.location.href='payments.html';">Top Payments Applications</button>
 
     </div>
 
 <h3> Other Tools </h3>
 
-<div style="padding: 20px; text-align: center;">
+<div style="padding: 10px; text-align: center;">
 
     <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
         
