@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User IP Address</title>
+</head>
+<body>
+  <h1>User IP Address</h1>
+  <p>Your IP address: <span id="ipAddress">Loading...</span></p>
+
+  <script>
+    // Function to get the user's IP address using an external API
+    function getUserIP() {
+      const apiUrl = "https://api.ipify.org?format=json";
+
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const ipAddress = data.ip;
+          const ipAddressElement = document.getElementById("ipAddress");
+          ipAddressElement.textContent = ipAddress;
+        })
+        .catch(error => {
+          console.error("Error occurred while fetching IP address:", error);
+          const ipAddressElement = document.getElementById("ipAddress");
+          ipAddressElement.textContent = "Error fetching IP address";
+        });
+    }
+
+    // Call the function to get the user's IP address when the page loads
+    getUserIP();
+  </script>
+  <div style="background-color: #333; color: #fff; text-align: center; padding: 10px;">
+    &copy; 2023 Get Lists. All rights reserved.
+</div>
+</body>
+</html>
