@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Typing Speed Test</title>
+</head>
+<body>
+    <h1>Typing Speed Test</h1>
+    <p>Enter the paragraph below and start typing to test your typing speed:</p>
+    <textarea id="inputArea" rows="8" cols="60" placeholder="Type here..."></textarea>
+    <button onclick="startTest()">Start Test</button>
+
+    <p id="testResult"></p>
+
+    <script>
+        function startTest() {
+            const originalParagraph = "Your own paragraph goes here... (up to 500 characters)";
+            const userTypedText = document.getElementById("inputArea").value.trim();
+            const wordLimit = 500;
+
+            const wordsTyped = userTypedText.split(' ');
+            const wordsOriginal = originalParagraph.split(' ');
+
+            let correctWords = 0;
+            for (let i = 0; i < wordsTyped.length; i++) {
+                if (i < wordsOriginal.length && wordsTyped[i] === wordsOriginal[i]) {
+                    correctWords++;
+                }
+            }
+
+            const accuracy = (correctWords / wordsTyped.length) * 100;
+            const totalCharacters = userTypedText.length;
+            const typingSpeed = Math.floor(totalCharacters / 5); // Assume an average word has 5 characters.
+
+            document.getElementById("testResult").innerHTML = `Your typing speed: ${typingSpeed} words per minute (WPM)<br>Accuracy: ${accuracy.toFixed(2)}%`;
+        }
+    </script>
+</body>
+</html>
