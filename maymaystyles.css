@@ -1,0 +1,54 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+  
+  h1 {
+    margin-bottom: 20px;
+  }
+  
+  #memeContainer {
+    position: relative;
+    display: inline-block;
+    border: 2px solid #000;
+    margin: 20px;
+    padding: 10px;
+  }
+  
+  #memeImage {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  #topText,
+  #bottomText {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 2px 2px 2px #000;
+    pointer-events: none; /* Disable text editing on the image */
+  }
+  
+  #topText {
+    top: 10px;
+  }
+  
+  #bottomText {
+    bottom: 10px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
