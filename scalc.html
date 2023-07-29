@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Get Lists - Scientific Calculator</title>
+    <title>Get Lists - Image and PDF Merger</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,35 +15,58 @@
     </div>
 
     <div class="content">
-        <h2>Scientific Calculator</h2>
-        <div class="calculator">
-            <input type="text" id="result" disabled>
-            <div class="buttons">
-                <button onclick="clearDisplay()">C</button>
-                <button onclick="deleteLastChar()"><</button>
-                <button onclick="appendSymbol('**')">x^y</button>
-                <button onclick="appendSymbol('/')">/</button>
-                <button onclick="appendSymbol('7')">7</button>
-                <button onclick="appendSymbol('8')">8</button>
-                <button onclick="appendSymbol('9')">9</button>
-                <button onclick="appendSymbol('*')">*</button>
-                <button onclick="appendSymbol('4')">4</button>
-                <button onclick="appendSymbol('5')">5</button>
-                <button onclick="appendSymbol('6')">6</button>
-                <button onclick="appendSymbol('-')">-</button>
-                <button onclick="appendSymbol('1')">1</button>
-                <button onclick="appendSymbol('2')">2</button>
-                <button onclick="appendSymbol('3')">3</button>
-                <button onclick="appendSymbol('+')">+</button>
-                <button onclick="appendSymbol('0')">0</button>
-                <button onclick="appendSymbol('.')">.</button>
-                <button onclick="calculateResult()">=</button>
-            </div>
-        </div>
+        <h2>Image and PDF Merger</h2>
+        <label for="fileInput">Select Images/PDFs:</label>
+        <input type="file" id="fileInput" accept=".jpg, .jpeg, .png, .pdf" multiple>
+        <button onclick="mergeFiles()">Merge Files</button>
+        <a id="downloadLink" style="display: none;">Download Merged File</a>
     </div>
 
     <div class="footer">
         &copy; 2023 Your Company. All rights reserved.
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/2.19.0/pdf-lib.min.js"></script>
+    <script>
+        async function mergeFiles() {
+            const fileInput = document.getElementById('fileInput');
+            const files = fileInput.files;
+            if (files.length === 0) {
+                alert('Please select at least one file.');
+                return;
+            }
+
+            const mergedPDF = await mergePDFs(files);
+            const blob = new Blob([mergedPDF], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const downloadLink = document.getElementById('downloadLink');
+            downloadLink.href = url;
+            downloadLink.download = 'merged_file.pdf';
+            downloadLink.style.display = 'block';
+        }
+
+        async function mergePDFs(files) {
+            const pdfDoc = await PDFLib.PDFDocument.create();
+            for (const file of files) {
+                if (file.type === 'application/pdf') {
+                    const pdfBytes = await file.arrayBuffer();
+                    const pdf = await PDFLib.PDFDocument.load(pdfBytes);
+                    const copiedPages = await pdfDoc.copyPages(pdf, pdf.getPageIndices());
+                    copiedPages.forEach((page) => pdfDoc.addPage(page));
+                } else if (file.type.startsWith('image/')) {
+                    const img = await PDFLib.JpegEmbed.fromData(await file.arrayBuffer());
+                    const page = pdfDoc.addPage([img.width, img.height]);
+                    page.drawImage(img, {
+                        x: 0,
+                        y: 0,
+                        width: img.width,
+                        height: img.height,
+                    });
+                }
+            }
+
+            return await pdfDoc.save();
+        }
+    </script>
 </body>
 </html>
