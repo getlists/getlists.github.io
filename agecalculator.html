@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get Lists - Age Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Get Lists</h1>
+    </div>
+
+    <div class="menu-bar">
+        <a href="#">Home</a>
+        <a href="#">Lists</a>
+    </div>
+
+    <div class="content">
+        <h2>Age Calculator</h2>
+        <label for="birthdate">Enter your birthdate:</label>
+        <input type="date" id="birthdate">
+        <button onclick="calculateAge()">Calculate Age</button>
+        <div id="result"></div>
+    </div>
+
+    <div class="footer">
+        &copy; 2023 Your Company. All rights reserved.
+    </div>
+
+    <script>
+        function calculateAge() {
+            const birthdate = new Date(document.getElementById('birthdate').value);
+            const today = new Date();
+
+            const yearDiff = today.getFullYear() - birthdate.getFullYear();
+            const monthDiff = today.getMonth() - birthdate.getMonth();
+            const dayDiff = today.getDate() - birthdate.getDate();
+
+            let ageYears = yearDiff;
+            let ageMonths = monthDiff;
+            let ageDays = dayDiff;
+
+            if (dayDiff < 0) {
+                const daysInLastMonth = new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+                ageDays = daysInLastMonth + dayDiff;
+                ageMonths -= 1;
+            }
+
+            if (monthDiff < 0) {
+                ageMonths = 12 + monthDiff;
+                ageYears -= 1;
+            }
+
+            document.getElementById('result').innerHTML = `Age: ${ageYears} years, ${ageMonths} months, and ${ageDays} days`;
+        }
+    </script>
+</body>
+</html>

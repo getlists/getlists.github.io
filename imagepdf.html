@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Get Lists - Image to PDF Converter</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Get Lists</h1>
+    </div>
+
+    <div class="menu-bar">
+        <a href="#">Home</a>
+        <a href="#">Lists</a>
+    </div>
+
+    <div class="content">
+        <h2>Image PDF Converter</h2>
+        <label for="fileInput">Select an Image or PDF:</label>
+        <input type="file" id="fileInput" accept=".jpg, .jpeg, .png, .pdf" />
+        <button onclick="convertToPDF()">Convert to PDF</button>
+        <button onclick="convertToImage()">Convert to Image</button>
+        <div id="convertedResult"></div>
+    </div>
+
+    <div class="footer">
+        &copy; 2023 Get Lists. All rights reserved.
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+        function convertToPDF() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Please select an image or PDF file.');
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const fileData = event.target.result;
+                const fileExtension = file.name.split('.').pop().toLowerCase();
+
+                if (fileExtension === 'pdf') {
+                    document.getElementById('convertedResult').innerHTML = 'PDF files cannot be converted to PDF.';
+                } else if (fileExtension === 'jpeg' || fileExtension === 'jpg' || fileExtension === 'png') {
+                    convertImageToPDF(fileData);
+                } else {
+                    document.getElementById('convertedResult').innerHTML = 'Unsupported file format.';
+                }
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function convertImageToPDF(imageData) {
+            const img = new Image();
+            img.src = imageData;
+
+            img.onload = function() {
+                const imgWidth = 210; // Width of the image (A4 page size)
+                const imgHeight = (img.height * imgWidth) / img.width;
+
+                const pdf = new jsPDF();
+                pdf.addImage(imageData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                pdf.save('converted.pdf');
+
+                document.getElementById('convertedResult').innerHTML = '<a href="converted.pdf" download>Download Converted PDF</a>';
+            };
+        }
+
+        function convertToImage() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Please select an image or PDF file.');
+                return;
+            }
+
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const fileData = event.target.result;
+                const fileExtension = file.name.split('.').pop().toLowerCase();
+
+                if (fileExtension === 'pdf') {
+                    convertPDFToImage(fileData);
+                } else if (fileExtension === 'jpeg' || fileExtension === 'jpg' || fileExtension === 'png') {
+                    document.getElementById('convertedResult').innerHTML = 'Image files cannot be converted to an image.';
+                } else {
+                    document.getElementById('convertedResult').innerHTML = 'Unsupported file format.';
+                }
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function convertPDFToImage(pdfData) {
+            const pdf = new jsPDF();
+            const img = new Image();
+
+            pdf.addImage(pdfData, 'JPEG', 0, 0, 210, 297); // Assuming A4 size for the image
+
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 210; // Width of the image (A4 page size)
+                canvas.height = (img.height * 210) / img.width;
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                const imageDataURL = canvas.toDataURL('image/jpeg', 1.0);
+                document.getElementById('convertedResult').innerHTML = '<img src="' + imageDataURL + '" />';
+            };
+
+            img.src = pdf.output('datauristring');
+        }
+    </script>
+</body>
+</html>
