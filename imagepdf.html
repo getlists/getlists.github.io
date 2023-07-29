@@ -2,27 +2,39 @@
 <html>
 <head>
     <title>Image to PDF Converter</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
 </head>
 <body>
     <h1>Image to PDF Converter</h1>
-    <div class="menu-bar">
-        <a href="index.html">Home</a>
-    </div>
-    <img id="sourceImage" src="path/to/your/image.jpg" alt="Image to Convert">
+    <input type="file" id="imageInput" multiple>
     <button onclick="convertToPDF()">Convert to PDF</button>
 
     <script>
         function convertToPDF() {
-            const imageElement = document.getElementById('sourceImage');
-            const pdf = new jsPDF();
-            const width = pdf.internal.pageSize.getWidth();
-            const height = (imageElement.height / imageElement.width) * width;
-
-            pdf.addImage(imageElement.src, 'JPEG', 0, 0, width, height);
-            pdf.save('output.pdf');
+            const input = document.getElementById('imageInput');
+            const files = input.files;
+            
+            // Prepare the form data to send to the server
+            const formData = new FormData();
+            for (const file of files) {
+                formData.append('images[]', file);
+            }
+            
+            // Send the images to the server for PDF conversion
+            fetch('/convert_to_pdf', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'output.pdf';
+                a.click();
+                URL.revokeObjectURL(url);
+            })
+            .catch(error => console.error('Error:', error));
         }
     </script>
-     
 </body>
 </html>
