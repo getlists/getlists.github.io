@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title> PDF Compressor Tool</title>
+    <title>Get Lists - PDF Compressor</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <div class="menu-bar">
         <a href="index.html">Home</a>
-       
     </div>
 
     <div class="content">
         <h2>PDF Compressor</h2>
         <input type="file" id="pdfInput" accept=".pdf" />
+        <label for="compressionPercentage">Compression Percentage:</label>
+        <input type="number" id="compressionPercentage" min="1" max="100" value="50" />
         <button id="compressBtn" onclick="compressPDF()">Compress PDF</button>
         <a href="#" id="downloadLink" style="display: none;">Download Compressed PDF</a>
     </div>
@@ -25,11 +26,12 @@
     <script>
         function compressPDF() {
             const pdfFile = document.getElementById('pdfInput').files[0];
+            const compressionPercentage = parseFloat(document.getElementById('compressionPercentage').value) / 100;
             const reader = new FileReader();
 
             reader.onload = function(event) {
                 const pdfData = event.target.result;
-                const compressedPDFData = compressPDFData(pdfData);
+                const compressedPDFData = compressPDFData(pdfData, compressionPercentage);
                 const blob = new Blob([compressedPDFData], { type: 'application/pdf' });
                 const url = URL.createObjectURL(blob);
                 const downloadLink = document.getElementById('downloadLink');
@@ -41,10 +43,13 @@
             reader.readAsArrayBuffer(pdfFile);
         }
 
-        function compressPDFData(pdfData) {
+        function compressPDFData(pdfData, compressionPercentage) {
             // In this basic example, we are returning the original data.
             // For real compression, you would need a server-side solution or a PDF compression library.
-            return pdfData;
+            // You can simulate compression by adjusting the file size based on the compressionPercentage.
+            const compressedData = new Uint8Array(pdfData.byteLength * compressionPercentage);
+            compressedData.set(new Uint8Array(pdfData.slice(0, pdfData.byteLength * compressionPercentage)));
+            return compressedData.buffer;
         }
     </script>
 </body>
