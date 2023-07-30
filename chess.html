@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chess Game</title>
+  <style>
+    /* Add your CSS styling here */
+#chessboard {
+  width: 320px;
+  height: 320px;
+  display: grid;
+  grid-template-columns: repeat(8, 40px);
+  grid-template-rows: repeat(8, 40px);
+}
+
+.cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  background-color: #eee;
+}
+
+.cell.white {
+  background-color: #fff;
+}
+
+.piece {
+  cursor: pointer;
+}
+
+.selected {
+  outline: 2px solid yellow;
+}
+
+  </style>
+</head>
+<body>
+  <h1>Chess Game</h1>
+  <div id="chessboard"></div>
+  <script>
+    const chessboard = document.getElementById('chessboard');
+const pieces = {
+  'r': '♜', 'n': '♞', 'b': '♝', 'q': '♛', 'k': '♚', 'p': '♟',
+  'R': '♖', 'N': '♘', 'B': '♗', 'Q': '♕', 'K': '♔', 'P': '♙'
+};
+let board = [
+  ['r', 'n', 'b', 'q', 'k', 'b', 'n', 'r'],
+  ['p', 'p', 'p', 'p', 'p', 'p', 'p', 'p'],
+  ['', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', ''],
+  ['', '', '', '', '', '', '', ''],
+  ['P', 'P', 'P', 'P', 'P', 'P', 'P', 'P'],
+  ['R', 'N', 'B', 'Q', 'K', 'B', 'N', 'R']
+];
+let selectedPiece = null;
+let isWhiteTurn = true;
+
+function renderChessboard() {
+  chessboard.innerHTML = '';
+  for (let row = 0; row < 8; row++) {
+    for (let col = 0; col < 8; col++) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      if ((row + col) % 2 === 0) {
+        cell.classList.add('white');
+      }
+      if (board[row][col] !== '') {
+        const piece = document.createElement('span');
+        piece.classList.add('piece');
+        piece.textContent = pieces[board[row][col]];
+        cell.appendChild(piece);
+      }
+      cell.dataset.row = row;
+      cell.dataset.col = col;
+      cell.addEventListener('click', handleCellClick);
+      chessboard.appendChild(cell);
+    }
+  }
+}
+
+function handleCellClick(event) {
+  const row = parseInt(event.target.dataset.row);
+  const col = parseInt(event.target.dataset.col);
+
+  if (!selectedPiece) {
+    if (board[row][col] !== '' && (isWhiteTurn === board[row][col].toUpperCase() === board[row][col])) {
+      selectedPiece = { row, col };
+      event.target.classList.add('selected');
+    }
+  } else {
+    const [selectedRow, selectedCol] = [selectedPiece.row, selectedPiece.col];
+    if (isValidMove(selectedRow, selectedCol, row, col)) {
+      movePiece(selectedRow, selectedCol, row, col);
+      isWhiteTurn = !isWhiteTurn;
+    }
+    selectedPiece = null;
+    renderChessboard();
+  }
+}
+
+function isValidMove(srcRow, srcCol, destRow, destCol) {
+  const piece = board[srcRow][srcCol];
+
+  // Check if the destination cell is out of bounds
+  if (destRow < 0 || destRow >= 8 || destCol < 0 || destCol >= 8) {
+    return false;
+  }
+
+  // Check if the destination cell contains a friendly piece
+  if (board[destRow][destCol] !== '' && board[destRow][destCol].toUpperCase() === piece.toUpperCase()) {
+    return false;
+  }
+
+  // Move logic for different pieces
+  const dx = destCol - srcCol;
+  const dy = destRow - srcRow;
+  const absDx = Math.abs(dx);
+  const absDy = Math.abs(dy);
+
+  switch (piece.toLowerCase()) {
+    case 'p':
+      // Pawn moves
+      const direction = piece === 'P' ? -1 : 1;
+      if (dx === 0 && board[destRow][destCol] === '') {
+        if (dy === direction || (dy === direction * 2 && srcRow === (piece === 'P' ? 6 : 1))) {
+          // Normal pawn move or double move from starting position
+          return true;
+        }
+      } else if (absDx === 1 && dy === direction && board[destRow][destCol] !== '') {
+        // Capture diagonally
+        return true;
+      }
+      break;
+    case 'r':
+      // Rook moves (horizontally or vertically)
+      if ((dx === 0 || dy === 0) && isPathClear(srcRow, srcCol, destRow, destCol)) {
+        return true;
+      }
+      break;
+    case 'n':
+      // Knight moves (L-shaped)
+      if ((absDx === 1 && absDy === 2) || (absDx === 2 && absDy === 1)) {
+        return true;
+      }
+      break;
+    case 'b':
+      // Bishop moves (diagonally)
+      if (absDx === absDy && isPathClear(srcRow, srcCol, destRow, destCol)) {
+        return true;
+      }
+      break;
+    case 'q':
+      // Queen moves (combination of rook and bishop moves)
+      if ((dx === 0 || dy === 0 || absDx === absDy) && isPathClear(srcRow, srcCol, destRow, destCol)) {
+        return true;
+      }
+      break;
+    case 'k':
+      // King moves (one square in any direction)
+      if (absDx <= 1 && absDy <= 1) {
+        return true;
+      }
+      break;
+    default:
+      return false;
+  }
+
+  return false;
+}
+
+function isPathClear(srcRow, srcCol, destRow, destCol) {
+  // Check if the path between source and destination is clear (for rook, bishop, and queen moves)
+  const dx = Math.sign(destCol - srcCol);
+  const dy = Math.sign(destRow - srcRow);
+  let row = srcRow + dy;
+  let col = srcCol + dx;
+
+  while (row !== destRow || col !== destCol) {
+    if (board[row][col] !== '') {
+      return false;
+    }
+    row += dy;
+    col += dx;
+  }
+
+  return true;
+}
+
+
+function movePiece(srcRow, srcCol, destRow, destCol) {
+  board[destRow][destCol] = board[srcRow][srcCol];
+  board[srcRow][srcCol] = '';
+}
+
+// Start the game
+renderChessboard();
+
+    // Add your JavaScript code here
+  </script>
+</body>
+</html>
