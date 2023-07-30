@@ -1,85 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Typing Speed Test</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Speed Test</title>
+  <style>
+    /* Add your CSS styling here */
+  </style>
 </head>
 <body>
-    <h1>Typing Speed Test</h1>
-    <p>Choose a time limit and start typing the random paragraph below:</p>
+  <h1>Typing Speed Test</h1>
+  <p id="typing-paragraph">Start typing the text below:</p>
+  <p id="random-paragraph"></p>
+  <textarea id="user-input" rows="5" cols="50" placeholder="Type here..."></textarea>
+  <button id="start-button">Start Test</button>
+  <p id="result"></p>
 
-    <select id="timeLimit">
-        <option value="300">5 minutes</option>
-        <option value="600">10 minutes</option>
-        <option value="1200">20 minutes</option>
-        <option value="1800">30 minutes</option>
-    </select>
+  <script>
+    const randomParagraphs = [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed faucibus mi vel massa euismod, at facilisis magna luctus.",
+      "Vestibulum ultricies magna non magna lacinia, in aliquet nisl laoreet. Curabitur tincidunt tortor non justo blandit venenatis.",
+      "Fusce vitae massa ut tortor maximus egestas. Integer in tristique orci. In hac habitasse platea dictumst.",
+      // Add more random paragraphs here...
+    ];
 
-    <textarea id="inputArea" rows="8" cols="60" placeholder="Type here..."></textarea>
-    <button onclick="startTest()">Start Test</button>
+    function getRandomParagraph() {
+      const randomIndex = Math.floor(Math.random() * randomParagraphs.length);
+      return randomParagraphs[randomIndex];
+    }
 
-    <p id="testResult"></p>
+    const randomParaElement = document.getElementById("random-paragraph");
+    const userInputElement = document.getElementById("user-input");
+    const resultElement = document.getElementById("result");
+    const startButton = document.getElementById("start-button");
 
-    <script>
-        const paragraphs = [
-            "This is a sample paragraph for testing your typing speed.",
-            "Typing speed tests are a fun way to improve your typing skills.",
-            "The quick brown fox jumps over the lazy dog.",
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-            // Add more random paragraphs here.
-        ];
+    startButton.addEventListener("click", function() {
+      const randomParagraph = getRandomParagraph();
+      randomParaElement.textContent = randomParagraph;
+      userInputElement.value = "";
+      userInputElement.focus();
+      resultElement.textContent = "Type the paragraph above as quickly and accurately as possible.";
+    });
 
-        function getRandomParagraph() {
-            return paragraphs[Math.floor(Math.random() * paragraphs.length)];
+    userInputElement.addEventListener("input", function() {
+      const userText = userInputElement.value.trim();
+      const randomText = randomParaElement.textContent.trim();
+      const words = randomText.split(" ");
+      const userWords = userText.split(" ");
+      let correctWords = 0;
+
+      for (let i = 0; i < userWords.length; i++) {
+        if (userWords[i] === words[i]) {
+          correctWords++;
         }
+      }
 
-        function startTest() {
-            const timeLimit = parseInt(document.getElementById("timeLimit").value, 10);
-            const originalParagraph = getRandomParagraph();
-            const timer = setTimeout(() => {
-                calculateResult(originalParagraph);
-            }, timeLimit * 1000);
+      const accuracy = (correctWords / words.length) * 100;
+      const wpm = (userWords.length / 5) * (60 / 5); // Assuming an average word length of 5 characters
 
-            document.getElementById("inputArea").value = "";
-            document.getElementById("inputArea").readOnly = false;
-            document.getElementById("inputArea").focus();
-
-            document.getElementById("testResult").innerHTML = "";
-
-            document.getElementById("inputArea").addEventListener("input", function () {
-                if (this.value === originalParagraph) {
-                    clearTimeout(timer);
-                    calculateResult(originalParagraph);
-                }
-            });
-        }
-
-        function calculateResult(originalParagraph) {
-            const userTypedText = document.getElementById("inputArea").value.trim();
-            const wordsTyped = userTypedText.split(' ');
-            const wordsOriginal = originalParagraph.split(' ');
-
-            let correctWords = 0;
-            for (let i = 0; i < wordsTyped.length; i++) {
-                if (i < wordsOriginal.length && wordsTyped[i] === wordsOriginal[i]) {
-                    correctWords++;
-                }
-            }
-
-            const accuracy = (correctWords / wordsTyped.length) * 100;
-            const totalCharacters = userTypedText.length;
-            const timeTaken = (document.getElementById("timeLimit").value / 60).toFixed(2);
-            const typingSpeed = Math.floor((totalCharacters / 5) / (timeTaken / 60)); // Assume an average word has 5 characters.
-
-            document.getElementById("inputArea").readOnly = true;
-            document.getElementById("testResult").innerHTML = `Your typing speed: ${typingSpeed} words per minute (WPM)<br>Accuracy: ${accuracy.toFixed(2)}%`;
-        }
-    </script>
-    <div style="text-align: center;">
-        <a href="index.html">Home</a> |
-    </div>
-
-    <footer class="footer">
-        &copy; 2023 Get Lists. All rights reserved.
-    </footer>
+      resultElement.textContent = `Accuracy: ${accuracy.toFixed(2)}%, WPM: ${wpm.toFixed(2)}`;
+    });
+  </script>
 </body>
 </html>
