@@ -91,7 +91,6 @@ function handleCellClick(event) {
   } else {
     const [selectedRow, selectedCol] = [selectedPiece.row, selectedPiece.col];
     if (isValidMove(selectedRow, selectedCol, row, col)) {
-      movePiece(selectedRow, selectedCol, row, col);
       isWhiteTurn = !isWhiteTurn;
     }
     selectedPiece = null;
@@ -100,74 +99,48 @@ function handleCellClick(event) {
 }
 
 function isValidMove(srcRow, srcCol, destRow, destCol) {
-  const piece = board[srcRow][srcCol];
+  // ... (existing code)
 
-  // Check if the destination cell is out of bounds
-  if (destRow < 0 || destRow >= 8 || destCol < 0 || destCol >= 8) {
-    return false;
-  }
-
-  // Check if the destination cell contains a friendly piece
-  if (board[destRow][destCol] !== '' && board[destRow][destCol].toUpperCase() === piece.toUpperCase()) {
-    return false;
-  }
-
-  // Move logic for different pieces
-  const dx = destCol - srcCol;
-  const dy = destRow - srcRow;
-  const absDx = Math.abs(dx);
-  const absDy = Math.abs(dy);
-
-  switch (piece.toLowerCase()) {
-    case 'p':
-      // Pawn moves
-      const direction = piece === 'P' ? -1 : 1;
-      if (dx === 0 && board[destRow][destCol] === '') {
-        if (dy === direction || (dy === direction * 2 && srcRow === (piece === 'P' ? 6 : 1))) {
-          // Normal pawn move or double move from starting position
-          return true;
-        }
-      } else if (absDx === 1 && dy === direction && board[destRow][destCol] !== '') {
-        // Capture diagonally
-        return true;
-      }
-      break;
-    case 'r':
-      // Rook moves (horizontally or vertically)
-      if ((dx === 0 || dy === 0) && isPathClear(srcRow, srcCol, destRow, destCol)) {
-        return true;
-      }
-      break;
-    case 'n':
-      // Knight moves (L-shaped)
-      if ((absDx === 1 && absDy === 2) || (absDx === 2 && absDy === 1)) {
-        return true;
-      }
-      break;
-    case 'b':
-      // Bishop moves (diagonally)
-      if (absDx === absDy && isPathClear(srcRow, srcCol, destRow, destCol)) {
-        return true;
-      }
-      break;
-    case 'q':
-      // Queen moves (combination of rook and bishop moves)
-      if ((dx === 0 || dy === 0 || absDx === absDy) && isPathClear(srcRow, srcCol, destRow, destCol)) {
-        return true;
-      }
-      break;
-    case 'k':
-      // King moves (one square in any direction)
-      if (absDx <= 1 && absDy <= 1) {
-        return true;
-      }
-      break;
-    default:
-      return false;
+  // Move logic for different pieces (add the following code)
+  if (isValidMoveForPiece(piece, srcRow, srcCol, destRow, destCol)) {
+    movePiece(srcRow, srcCol, destRow, destCol);
+    return true;
   }
 
   return false;
 }
+
+function isValidMoveForPiece(piece, srcRow, srcCol, destRow, destCol) {
+  // Add your logic to check if the move is valid for the selected piece
+  // Based on the piece's type, validate the move according to chess rules.
+
+  // For a basic implementation, you can consider moves that are allowed for the selected piece.
+  // Make sure to handle the specific rules for each type of chess piece.
+
+  // Here's an example for the pawn (you need to add similar code for other pieces):
+  const dx = destCol - srcCol;
+  const dy = destRow - srcRow;
+  const absDx = Math.abs(dx);
+  const absDy = Math.abs(dy);
+  const direction = piece === 'P' ? -1 : 1; // -1 for white pawn, 1 for black pawn
+
+  if (piece.toLowerCase() === 'p') {
+    if (dx === 0 && board[destRow][destCol] === '') {
+      if (dy === direction || (dy === direction * 2 && srcRow === (piece === 'P' ? 6 : 1))) {
+        // Normal pawn move or double move from starting position
+        return true;
+      }
+    } else if (absDx === 1 && dy === direction && board[destRow][destCol] !== '') {
+      // Capture diagonally
+      return true;
+    }
+  }
+
+  // ... Add more logic for other pieces
+
+  return false;
+}
+
 
 function isPathClear(srcRow, srcCol, destRow, destCol) {
   // Check if the path between source and destination is clear (for rook, bishop, and queen moves)
@@ -189,9 +162,11 @@ function isPathClear(srcRow, srcCol, destRow, destCol) {
 
 
 function movePiece(srcRow, srcCol, destRow, destCol) {
-  board[destRow][destCol] = board[srcRow][srcCol];
+  const piece = board[srcRow][srcCol];
+  board[destRow][destCol] = piece;
   board[srcRow][srcCol] = '';
 }
+
 
 // Start the game
 renderChessboard();
