@@ -15,10 +15,24 @@
     canvas {
       border: 2px solid black;
     }
+    button {
+      margin: 10px;
+    }
   </style>
 </head>
 <body>
   <canvas id="snakeCanvas" width="400" height="400"></canvas>
+  <div>
+    <button onclick="startGame()">Start</button>
+    <button onclick="pauseGame()">Pause</button>
+    <button onclick="stopGame()">Stop</button>
+    <label for="speed">Speed:</label>
+    <select id="speed" onchange="changeSpeed()">
+      <option value="100">Slow</option>
+      <option value="50" selected>Medium</option>
+      <option value="25">Fast</option>
+    </select>
+  </div>
 
   <script>
     const canvas = document.getElementById('snakeCanvas');
@@ -27,6 +41,7 @@
     let snake = [{ x: 9 * box, y: 10 * box }];
     let food = { x: Math.floor(Math.random() * 20) * box, y: Math.floor(Math.random() * 20) * box };
     let score = 0;
+    let gameInterval;
 
     function drawSnake() {
       snake.forEach((segment) => {
@@ -111,7 +126,37 @@
       }
     });
 
-    const gameInterval = setInterval(gameLoop, 100);
+    function startGame() {
+      if (!gameInterval) {
+        gameInterval = setInterval(gameLoop, parseInt(document.getElementById('speed').value));
+      }
+    }
+
+    function pauseGame() {
+      clearInterval(gameInterval);
+      gameInterval = null;
+    }
+
+    function stopGame() {
+      clearInterval(gameInterval);
+      gameInterval = null;
+      snake = [{ x: 9 * box, y: 10 * box }];
+      food = { x: Math.floor(Math.random() * 20) * box, y: Math.floor(Math.random() * 20) * box };
+      score = 0;
+      direction = 'RIGHT';
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawSnake();
+      drawFood();
+      drawScore();
+    }
+
+    function changeSpeed() {
+      if (gameInterval) {
+        clearInterval(gameInterval);
+        gameInterval = setInterval(gameLoop, parseInt(document.getElementById('speed').value));
+      }
+    }
+
   </script>
 </body>
 </html>
