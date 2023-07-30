@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hangman</title>
+  <style>
+    /* Add your CSS styling here */
+  </style>
+</head>
+<body>
+  <h1>Hangman</h1>
+  <div id="word-display"></div>
+  <p id="guesses">Incorrect Guesses: 0</p>
+  <div id="hangman-display"></div>
+  <p id="message"></p>
+  <button id="reset-button">Play Again</button>
+  <script>
+    const wordList = ['hangman', 'javascript', 'programming', 'web', 'developer'];
+const wordDisplay = document.getElementById('word-display');
+const guessesDisplay = document.getElementById('guesses');
+const hangmanDisplay = document.getElementById('hangman-display');
+const messageDisplay = document.getElementById('message');
+const resetButton = document.getElementById('reset-button');
+let word;
+let wordState;
+let incorrectGuesses = 0;
+const maxIncorrectGuesses = 6;
+
+function chooseRandomWord() {
+  // Add code to choose a random word from the wordList array
+}
+
+function initGame() {
+  // Add code to initialize the game state and display
+}
+
+function updateWordDisplay() {
+  // Add code to update the word display with underscores and revealed letters
+}
+
+function checkLetter(letter) {
+  // Add code to check if the letter is present in the word and update wordState accordingly
+}
+
+function updateHangmanDisplay() {
+  // Add code to update the Hangman figure display based on the number of incorrect guesses
+}
+
+function checkGameResult() {
+  // Add code to check if the game is won or lost and display the result
+}
+
+function handleLetterGuess() {
+  // Add code to handle letter guesses and update the game state
+}
+
+function resetGame() {
+  // Add code to reset the game state and display
+}
+
+// Add event listeners and start the game
+
+    // Add your JavaScript code here
+  </script>
+</body>
+</html>

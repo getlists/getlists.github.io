@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tic-Tac-Toe</title>
+  <style>
+    /* Add your CSS styling here */
+#board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+}
+
+.cell {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+#message {
+  font-size: 24px;
+  text-align: center;
+}
+
+button {
+  margin-top: 10px;
+}
+
+    /* Add your CSS styling here */
+  </style>
+</head>
+<body>
+  <div id="board">
+    <div class="row">
+      <div class="cell" data-row="0" data-col="0"></div>
+      <div class="cell" data-row="0" data-col="1"></div>
+      <div class="cell" data-row="0" data-col="2"></div>
+    </div>
+    <div class="row">
+      <div class="cell" data-row="1" data-col="0"></div>
+      <div class="cell" data-row="1" data-col="1"></div>
+      <div class="cell" data-row="1" data-col="2"></div>
+    </div>
+    <div class="row">
+      <div class="cell" data-row="2" data-col="0"></div>
+      <div class="cell" data-row="2" data-col="1"></div>
+      <div class="cell" data-row="2" data-col="2"></div>
+    </div>
+  </div>
+  <p id="message"></p>
+  <button id="reset-button">Reset</button>
+  <script>
+    const board = document.getElementById('board');
+const messageDisplay = document.getElementById('message');
+const resetButton = document.getElementById('reset-button');
+let currentPlayer = 'X';
+let gameBoard = [
+  ['', '', ''],
+  ['', '', ''],
+  ['', '', ''],
+];
+
+function renderBoard() {
+  // Add code to update the board display based on gameBoard
+}
+
+function checkWin() {
+  // Add code to check for a win condition and return the winning player ('X' or 'O')
+  // Return null if there is no winner
+}
+
+function checkDraw() {
+  // Add code to check for a draw condition
+  // Return true if the board is full and there is no winner
+}
+
+function handleCellClick(event) {
+  // Add code to handle cell clicks and update the gameBoard array
+}
+
+function resetGame() {
+  // Add code to reset the game state and display
+}
+
+// Add event listeners and start the game
+
+    // Add your JavaScript code here
+  </script>
+</body>
+</html>
