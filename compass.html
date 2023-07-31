@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Compass</title>
+  <title>Realistic Compass</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -10,10 +10,11 @@
     #compass-container {
       width: 200px;
       height: 200px;
-      border: 5px solid #333;
+      background-color: #f0f0f0;
       border-radius: 50%;
       position: relative;
       margin: 50px auto;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     }
 
     #compass-needle {
@@ -26,12 +27,41 @@
       transform-origin: bottom;
       transform: translateX(-50%) rotate(0deg);
       transition: transform 0.1s ease-in-out;
+      z-index: 1;
+    }
+
+    #compass-direction {
+      position: absolute;
+      top: 70%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+      z-index: 2;
+    }
+
+    #compass-rose {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+    }
+
+    #compass-rose img {
+      width: 100%;
+      height: auto;
     }
   </style>
 </head>
 <body>
   <div id="compass-container">
     <div id="compass-needle"></div>
+    <div id="compass-direction">N</div>
+    <div id="compass-rose">
+      <img src="compass_rose.png" alt="Compass Rose">
+    </div>
   </div>
 
   <script>
@@ -50,6 +80,11 @@
     function updateCompass(angle) {
       const compassNeedle = document.getElementById("compass-needle");
       compassNeedle.style.transform = `translateX(-50%) rotate(${360 - angle}deg)`;
+
+      const compassDirection = document.getElementById("compass-direction");
+      const cardinalDirections = ["N", "NE", "E", "SE", "S", "SW", "W", "NW", "N"];
+      const index = Math.floor(((360 - angle + 22.5) % 360) / 45);
+      compassDirection.textContent = cardinalDirections[index];
     }
   </script>
 </body>
