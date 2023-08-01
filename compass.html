@@ -52,20 +52,7 @@
   </style>
 </head>
 <body>
-  <div id="compass-container">
-    <div id="compass-needle"></div>
-    <div id="compass-direction">N</div>
-    <div id="compass-rose">
-      <span>N</span>
-      <span>NE</span>
-      <span>E</span>
-      <span>SE</span>
-      <span>S</span>
-      <span>SW</span>
-      <span>W</span>
-      <span>NW</span>
-    </div>
-  </div>
+  
 
   <script>
     window.addEventListener("deviceorientation", handleOrientation, true);
@@ -89,6 +76,9 @@
       const index = Math.floor(((360 - angle + 22.5) % 360) / 45);
       compassDirection.textContent = cardinalDirections[index];
     }
+
+    
   </script>
+  <p>Rotate you device to check directions. It is simple compass works on slowest network conditions. Save this page to use compass offline. </p>
 </body>
 </html>

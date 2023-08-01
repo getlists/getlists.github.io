@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tetris Game</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+    canvas {
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="tetrisCanvas" width="240" height="480"></canvas>
+
+  <script>
+    const canvas = document.getElementById('tetrisCanvas');
+    const context = canvas.getContext('2d');
+    const blockSize = 30;
+    const boardWidth = 10;
+    const boardHeight = 20;
+    const board = [];
+
+    for (let i = 0; i < boardHeight; i++) {
+      board[i] = [];
+      for (let j = 0; j < boardWidth; j++) {
+        board[i][j] = 0;
+      }
+    }
+
+    function drawBlock(x, y) {
+      context.fillRect(x * blockSize, y * blockSize, blockSize, blockSize);
+      context.strokeRect(x * blockSize, y * blockSize, blockSize, blockSize);
+    }
+
+    function drawBoard() {
+      for (let i = 0; i < boardHeight; i++) {
+        for (let j = 0; j < boardWidth; j++) {
+          if (board[i][j]) {
+            context.fillStyle = 'blue';
+            drawBlock(j, i);
+          }
+        }
+      }
+    }
+
+    function draw() {
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      drawBoard();
+    }
+
+    // Tetrominoes shapes
+    const tetrominoes = [
+      [],
+      [[1, 1, 1, 1]],
+      [[1, 1, 1], [0, 1, 0]],
+      [[1, 1, 1], [1, 0, 0]],
+      [[1, 1], [1, 1]],
+      [[0, 1, 1], [1, 1, 0]],
+      [[1, 1, 0], [0, 1, 1]],
+      [[0, 1, 0], [1, 1, 1]],
+    ];
+
+    let currentTetromino = { shape: [], x: 0, y: 0 };
+
+    function generateTetromino() {
+      const shapeId = Math.floor(Math.random() * tetrominoes.length);
+      currentTetromino.shape = tetrominoes[shapeId];
+      currentTetromino.x = Math.floor((boardWidth - currentTetromino.shape[0].length) / 2);
+      currentTetromino.y = 0;
+    }
+
+    function canMove(x, y, shape) {
+      for (let i = 0; i < shape.length; i++) {
+        for (let j = 0; j < shape[i].length; j++) {
+          if (shape[i][j]) {
+            const newX = x + j;
+            const newY = y + i;
+            if (newX < 0 || newX >= boardWidth || newY >= boardHeight || board[newY][newX]) {
+              return false;
+            }
+          }
+        }
+      }
+      return true;
+    }
+
+    function mergeTetromino() {
+      for (let i = 0; i < currentTetromino.shape.length; i++) {
+        for (let j = 0; j < currentTetromino.shape[i].length; j++) {
+          if (currentTetromino.shape[i][j]) {
+            board[currentTetromino.y + i][currentTetromino.x + j] = 1;
+          }
+        }
+      }
+    }
+
+    function checkForLines() {
+      let linesCleared = 0;
+      for (let i = boardHeight - 1; i >= 0; i--) {
+        if (board[i].every(cell => cell)) {
+          board.splice(i, 1);
+          board.unshift(new Array(boardWidth).fill(0));
+          linesCleared++;
+        }
+      }
+      return linesCleared;
+    }
+
+    function update() {
+      if (canMove(currentTetromino.x, currentTetromino.y + 1, currentTetromino.shape)) {
+        currentTetromino.y++;
+      } else {
+        mergeTetromino();
+        const linesCleared = checkForLines();
+        if (linesCleared > 0) {
+          // Increase score based on linesCleared
+        }
+        generateTetromino();
+      }
+      draw();
+    }
+
+    function onKeyDown(event) {
+      if (event.key === 'ArrowLeft' && canMove(currentTetromino.x - 1, currentTetromino.y, currentTetromino.shape)) {
+        currentTetromino.x--;
+      } else if (event.key === 'ArrowRight' && canMove(currentTetromino.x + 1, currentTetromino.y, currentTetromino.shape)) {
+        currentTetromino.x++;
+      } else if (event.key === 'ArrowDown' && canMove(currentTetromino.x, currentTetromino.y + 1, currentTetromino.shape)) {
+        currentTetromino.y++;
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown);
+
+    function startGame() {
+      generateTetromino();
+      setInterval(update, 500); // You can adjust the game speed here (milliseconds).
+    }
+
+    startGame();
+  </script>
+</body>
+</html>
